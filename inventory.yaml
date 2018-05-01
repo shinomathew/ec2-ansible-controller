@@ -1,0 +1,9 @@
+---
+
+key_name: <<your key>>
+instance_type: t2.micro
+security_group: <<your security group>>
+image: <<a centos ami>>
+region: us-west-2
+subnet: <<your subnet>>
+instance_name: 'Test-Ansible-Controller'

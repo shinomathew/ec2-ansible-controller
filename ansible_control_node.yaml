@@ -1,0 +1,33 @@
+---
+- name: Create a an ansible control node (aws instance)
+  hosts: localhost
+  gather_facts: False
+
+  tasks:
+    - name: install boto
+      command: 'pip install boto'
+
+    - name: create ec2 instance
+      ec2:
+        key_name: '{{ key_name }}'
+        group_id: '{{ security_group }}'
+        instance_type: t2.micro
+        image: '{{ image }}'
+        wait: yes
+        wait_timeout: 500
+        monitoring: yes
+        vpc_subnet_id: '{{ subnet }}'
+        assign_public_ip: yes
+        region: '{{ region }}'
+        instance_tags:
+            Name: '{{ instance_name }}'
+        user_data: '{{ user_data }}'
+      vars:
+        key_name: puppet
+        instance_type: t2.micro
+        security_group: sg-e3d27e98
+        image: ami-f18d6b89
+        region: us-west-2
+        subnet: subnet-ac0bfcc9
+        instance_name: 'Test-Ansible-Controller'
+        user_data: "{{ lookup('file', './script.sh') }}"
